@@ -30,7 +30,9 @@ app.set('view engine', 'ejs');
 passportRoutes(app);
 
 app.get('*', ensureAuthenticated, (req, res) => {
-  res.render('index', {});
+  res.render('index', {
+    githubId: req.user.id
+  });
 });
 
 const server = http.createServer(app);
