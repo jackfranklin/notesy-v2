@@ -25,6 +25,12 @@ function getAll(userId) {
   });
 }
 
+function findNoteById(id) {
+  return db.find({
+    selector: { _id: id }
+  });
+}
+
 function createNote({ content, userId }) {
   return db.put({
     _id: (+(new Date())).toString(),
@@ -34,9 +40,9 @@ function createNote({ content, userId }) {
 }
 
 export {
-  db,
   getAll,
-  createNote
+  createNote,
+  findNoteById
 };
 
 // db.changes({

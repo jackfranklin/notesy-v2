@@ -8,14 +8,11 @@ import {
 import { render } from 'react-dom';
 
 import App from './components/app';
-import Index from './components/index';
 import React from 'react';
 
 render((
   <Router history={browserHistory}>
-    <Route path="/" component={App}>
-      <IndexRoute component={Index} />
-    </Route>
+    <Route path="/(:documentId)" component={App} />
   </Router>
 ), document.getElementById('app'));
 
