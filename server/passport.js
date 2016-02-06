@@ -13,11 +13,15 @@ export function configurePassport() {
     done(null, obj);
   });
 
+  const REDIRECT_URL = process.env.NODE_ENV === 'production' ?
+    'http://notesy2.herokuapp.com/auth/github/callback' :
+    'http://localhost:3003/auth/github/callback';
+
   const strategy = new GitHubStrategy({
     clientID: process.env.GITHUB_ID,
     clientSecret: process.env.GITHUB_SECRET,
     // TODO: this needs to deal with a production URL
-    callbackURL: "http://localhost:3003/auth/github/callback"
+    callbackURL: REDIRECT_URL
   }, (accessToken, refreshToken, profile, done) => {
     return done(null, profile);
   });
