@@ -31,13 +31,15 @@ passportRoutes(app);
 
 app.get('*', ensureAuthenticated, (req, res) => {
   res.render('index', {
-    githubId: req.user.id
+    githubId: req.user.id,
+    scriptSrc: process.env.NODE_ENV === 'production' ? 'production-build.js' : 'webpack-build.js'
   });
 });
 
 const server = http.createServer(app);
 
-server.listen(3003);
+const port = process.env.PORT || 3003;
+server.listen(port);
 server.on('listening', () => {
-  console.log('Listening on 3003');
+  console.log('Listening on ' + port);
 });
