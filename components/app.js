@@ -1,6 +1,7 @@
 import React from 'react';
 import Sidebar from './sidebar';
 import DocumentView from './document-view';
+import Header from './header';
 import {
   getAll,
   createNote,
@@ -9,17 +10,30 @@ import {
 
 export default class App extends React.Component {
   static childContextTypes = {
-    newActiveDocument: React.PropTypes.func
+    newActiveDocument: React.PropTypes.func,
+    updateDocumentList: React.PropTypes.func
   };
 
   getChildContext() {
     return {
-      newActiveDocument: ::this.newActiveDocument
+      newActiveDocument: ::this.newActiveDocument,
+      updateDocumentList: ::this.updateDocumentList
     }
   }
 
+  updateDocumentList() {
+    getAll(this.state.user).then((data) => {
+      // TODO: can I do the reverse query as a Pouch _id sort?
+      this.setState({ documents: data.docs.reverse() });
+    });
+  }
+
   newActiveDocument(newDocument) {
-    console.log('new doc called', newDocument);
+    if (!newDocument) {
+      this.setState({ activeDocument: undefined });
+      return;
+    }
+
     const newDocumentList = this.state.documents.map((doc) => {
       if (doc._id === newDocument._id) {
         return newDocument;
@@ -53,26 +67,29 @@ export default class App extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.state.activeDocument) {
-      if (this.state.activeDocument._id !== this.props.params.documentId) {
-        this.updateActiveDocumentById(this.props.params.documentId);
-      }
-    } else if(this.props.params.documentId) {
-        this.updateActiveDocumentById(this.props.params.documentId);
+    console.log('didUpdate called', this.state.activeDocument, this.props.params);
+    if (this.props.params.documentId && this.state.activeDocument && this.state.activeDocument._id !== this.props.params.documentId) {
+      // had a note, clicked to another note
+      console.log('need to fetch the note');
+      this.updateActiveDocumentById(this.props.params.documentId);
+    } else if(this.props.params.documentId && !this.state.activeDocument) {
+      // didn't have a note, navigated to a note
+      this.updateActiveDocumentById(this.props.params.documentId);
+    } else if(!this.props.params.documentId && this.state.activeDocument) {
+      // had a note, now we have absolutely nothing
+      this.newActiveDocument(undefined);
     }
   }
 
   componentWillMount() {
-    getAll(this.state.user).then((data) => {
-      this.setState({ documents: data.docs });
-    });
+    this.updateDocumentList();
   }
 
   render() {
     return (
       <div>
         <div className="header">
-          <p>Welcome to Notesy V2</p>
+          <Header userId={this.state.user} />
         </div>
         <div className="sidebar">
           <Sidebar documents={this.state.documents} />

@@ -42,10 +42,21 @@ body {
 
 .sidebar li {
   position: relative;
+}
+
+.sidebar-document-link {
+  display: block;
+  width: 100%;
+  height: 100%;
   padding: 8px;
   height: 70px;
   background: #F8F8F8;
   border-bottom: 1px solid #EEE;
+}
+
+.sidebar li:hover {
+  cursor: pointer;
+  background: #eee;
 }
 
 .sidebar .date {

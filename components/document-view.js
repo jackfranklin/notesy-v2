@@ -2,11 +2,13 @@ import React from 'react';
 import NoDocumentView from './no-document-view';
 import Editor from 'react-md-editor';
 import debounce from 'lodash/debounce';
-import { updateNote } from '../db';
+import { updateNote, deleteNote } from '../db';
 
 export default class DocumentView extends React.Component {
   static contextTypes = {
-    newActiveDocument: React.PropTypes.func.isRequired
+    newActiveDocument: React.PropTypes.func.isRequired,
+    updateDocumentList: React.PropTypes.func.isRequired,
+    router: React.PropTypes.object.isRequired
   };
 
   constructor(props) {
@@ -34,9 +36,21 @@ export default class DocumentView extends React.Component {
     });
   }
 
+  deleteSelf() {
+    deleteNote(this.props.document).then(() => {
+      this.context.updateDocumentList();
+      this.context.router.push('/');
+    });
+  }
+
   renderDocument() {
     return (
-      <Editor value={this.state.content} onChange={debounce(::this.updateContent, 1000)} />
+      <div className="document-view">
+        <div className="toolbar">
+          <button onClick={::this.deleteSelf}>Delete</button>
+        </div>
+        <Editor value={this.state.content} onChange={debounce(::this.updateContent, 1000)} />
+      </div>
     );
   }
 

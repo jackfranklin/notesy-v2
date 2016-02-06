@@ -13,6 +13,8 @@ db.sync(remote, {
   retry: true
 });
 
+// TODO: turn on db.compact every 5 minutes or so
+
 db.createIndex({
   index: {
     fields: ['userId']
@@ -39,6 +41,11 @@ function createNote({ content, userId }) {
   });
 }
 
+function deleteNote(note) {
+  note._deleted = true;
+  return updateNote(note);
+}
+
 function updateNote(note) {
   return db.put(note);
 }
@@ -47,7 +54,8 @@ export {
   getAll,
   createNote,
   findNoteById,
-  updateNote
+  updateNote,
+  deleteNote
 };
 
 // db.changes({

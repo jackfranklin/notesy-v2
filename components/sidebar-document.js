@@ -11,7 +11,7 @@ export default class SidebarDocument extends React.Component {
     const { doc } = this.props;
     const date = new Date(+doc._id);
     return (
-      <Link to={`/${doc._id}`}>
+      <Link className="sidebar-document-link" to={`/${doc._id}`}>
         <div>
           <span className="content">{ doc.content.substring(0, 100) }</span>
           <span className="date">{ dateFormat(date, "mmmm dS") }</span>
