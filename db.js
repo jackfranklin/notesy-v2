@@ -4,9 +4,10 @@ PouchDB.plugin(require('pouchdb-find'));
 // swapped out by Webpack
 const CLOUDANT_KEY = __CLOUDANT_KEY__;
 const CLOUDANT_PASS = __CLOUDANT_PASS__;
+const CLOUDANT_DB = __CLOUDANT_DB__;
 
-const db = new PouchDB('notesy-dev');
-const remote = 'https://' + CLOUDANT_KEY + ':' + CLOUDANT_PASS + '@jackfranklin.cloudant.com/notesy-dev';
+const db = new PouchDB(CLOUDANT_DB);
+const remote = 'https://' + CLOUDANT_KEY + ':' + CLOUDANT_PASS + '@jackfranklin.cloudant.com/' + CLOUDANT_DB;
 
 db.sync(remote, {
   live: true,

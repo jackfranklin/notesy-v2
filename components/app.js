@@ -67,10 +67,8 @@ export default class App extends React.Component {
   }
 
   componentDidUpdate() {
-    console.log('didUpdate called', this.state.activeDocument, this.props.params);
     if (this.props.params.documentId && this.state.activeDocument && this.state.activeDocument._id !== this.props.params.documentId) {
       // had a note, clicked to another note
-      console.log('need to fetch the note');
       this.updateActiveDocumentById(this.props.params.documentId);
     } else if(this.props.params.documentId && !this.state.activeDocument) {
       // didn't have a note, navigated to a note
