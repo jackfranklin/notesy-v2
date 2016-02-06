@@ -1,6 +1,8 @@
 import React from 'react';
 import NoDocumentView from './no-document-view';
 import Editor from 'react-md-editor';
+import debounce from 'lodash/debounce';
+import { updateNote } from '../db';
 
 export default class DocumentView extends React.Component {
   static contextTypes = {
@@ -9,7 +11,6 @@ export default class DocumentView extends React.Component {
 
   constructor(props) {
     super(props);
-    console.log('got props', props);
     this.state = {
       content: props.document && props.document.content
     }
@@ -20,12 +21,22 @@ export default class DocumentView extends React.Component {
   }
 
   updateContent(newContent) {
-    console.log('got new content', newContent);
+    const doc = this.props.document;
+    let newDoc = {
+      _id: doc._id,
+      _rev: doc._rev,
+      userId: doc.userId,
+      content: newContent
+    }
+    updateNote(newDoc).then((updatedDoc) => {
+      newDoc._rev = updatedDoc.rev;
+      this.context.newActiveDocument(newDoc);
+    });
   }
 
   renderDocument() {
     return (
-      <Editor value={this.state.content} onChange={::this.updateContent} />
+      <Editor value={this.state.content} onChange={debounce(::this.updateContent, 1000)} />
     );
   }
 

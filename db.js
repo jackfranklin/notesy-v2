@@ -39,10 +39,15 @@ function createNote({ content, userId }) {
   });
 }
 
+function updateNote(note) {
+  return db.put(note);
+}
+
 export {
   getAll,
   createNote,
-  findNoteById
+  findNoteById,
+  updateNote
 };
 
 // db.changes({

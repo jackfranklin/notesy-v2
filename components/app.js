@@ -18,9 +18,19 @@ export default class App extends React.Component {
     }
   }
 
-  newActiveDocument(document) {
-    console.log('new active document called', document);
-    this.setState({ activeDocument: document });
+  newActiveDocument(newDocument) {
+    console.log('new doc called', newDocument);
+    const newDocumentList = this.state.documents.map((doc) => {
+      if (doc._id === newDocument._id) {
+        return newDocument;
+      } else {
+        return doc;
+      }
+    });
+    this.setState({
+      activeDocument: newDocument,
+      documents: newDocumentList
+    });
   }
 
   constructor(props) {
@@ -32,8 +42,7 @@ export default class App extends React.Component {
     };
   }
 
-  updateActiveDocument(newId) {
-    console.log('need to update active document to', newId);
+  updateActiveDocumentById(newId) {
     findNoteById(newId).then((res) => {
       if (res.docs.length === 1) {
         this.newActiveDocument(res.docs[0]);
@@ -46,17 +55,16 @@ export default class App extends React.Component {
   componentDidUpdate() {
     if (this.state.activeDocument) {
       if (this.state.activeDocument._id !== this.props.params.documentId) {
-        this.updateActiveDocument(this.props.params.documentId);
+        this.updateActiveDocumentById(this.props.params.documentId);
       }
     } else if(this.props.params.documentId) {
-        this.updateActiveDocument(this.props.params.documentId);
+        this.updateActiveDocumentById(this.props.params.documentId);
     }
   }
 
   componentWillMount() {
     getAll(this.state.user).then((data) => {
       this.setState({ documents: data.docs });
-      console.log('got data', data);
     });
   }
 
