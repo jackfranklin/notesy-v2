@@ -32,7 +32,7 @@ passportRoutes(app);
 app.get('*', ensureAuthenticated, (req, res) => {
   res.render('index', {
     githubId: req.user.id,
-    scriptSrc: process.env.NODE_ENV === 'production' ? 'production-build.js' : 'webpack-build.js'
+    scriptSrc: process.env.NODE_ENV === 'production' ? 'http://notesy2.surge.sh/production-build.js' : 'webpack-build.js'
   });
 });
 
