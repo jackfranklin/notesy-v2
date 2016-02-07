@@ -25,6 +25,7 @@ export default class DocumentView extends React.Component {
   updateContent(newContent) {
     const doc = this.props.document;
     if (!doc) return;
+    if (doc.content === newContent) return;
     let newDoc = {
       _id: doc._id,
       _rev: doc._rev,
@@ -50,7 +51,7 @@ export default class DocumentView extends React.Component {
         <div className="toolbar">
           <button onClick={::this.deleteSelf}>Delete</button>
         </div>
-        <Editor value={this.state.content} onChange={debounce(::this.updateContent, 1000)} />
+        <Editor value={this.state.content} onChange={debounce(::this.updateContent, 500)} />
       </div>
     );
   }
