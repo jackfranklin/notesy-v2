@@ -66,15 +66,24 @@ export default class App extends React.Component {
     });
   }
 
-  componentDidUpdate() {
-    if (this.props.params.documentId && this.state.activeDocument && this.state.activeDocument._id !== this.props.params.documentId) {
-      // had a note, clicked to another note
-      this.updateActiveDocumentById(this.props.params.documentId);
-    } else if(this.props.params.documentId && !this.state.activeDocument) {
-      // didn't have a note, navigated to a note
-      this.updateActiveDocumentById(this.props.params.documentId);
-    } else if(!this.props.params.documentId && this.state.activeDocument) {
-      // had a note, now we have absolutely nothing
+  componentDidUpdate(prevProps) {
+    const oldDocId = prevProps.params && prevProps.params.documentId;
+    const newDocId = this.props.params && this.props.params.documentId;
+
+    if (oldDocId === newDocId) return;
+    console.log('cDU called', oldDocId, newDocId);
+
+    if (oldDocId && newDocId && oldDocId !== newDocId) {
+      // went from one note to another, need to fetch new one
+      console.log('from', oldDocId, 'to', newDocId);
+      this.updateActiveDocumentById(newDocId);
+    } else if (!oldDocId && newDocId) {
+      console.log('from home page to doc');
+      this.updateActiveDocumentById(newDocId);
+      // went from no doc to a new one
+    } else if(oldDocId && !newDocId) {
+      // went from a doc to the home page (usually deleted)
+      console.log('from doc to home page');
       this.newActiveDocument(undefined);
     }
   }

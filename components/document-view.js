@@ -24,6 +24,7 @@ export default class DocumentView extends React.Component {
 
   updateContent(newContent) {
     const doc = this.props.document;
+    if (!doc) return;
     let newDoc = {
       _id: doc._id,
       _rev: doc._rev,
