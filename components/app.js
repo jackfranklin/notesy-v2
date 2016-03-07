@@ -23,6 +23,7 @@ export default class App extends React.Component {
 
   updateDocumentList() {
     getAll(this.state.user).then((data) => {
+      console.log('Got data for user', data);
       // TODO: can I do the reverse query as a Pouch _id sort?
       this.setState({ documents: data.docs.reverse() });
     });

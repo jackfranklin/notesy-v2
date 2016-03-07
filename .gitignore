@@ -1,4 +1,4 @@
 .env
 public/webpack-build.js
 public/production-build.js
-test.js
+data-to-import.json

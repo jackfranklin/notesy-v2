@@ -46,12 +46,19 @@ export default class DocumentView extends React.Component {
   }
 
   renderDocument() {
+    const codemirrorOptions = {
+      lineWrapping: true
+    };
+
     return (
       <div className="document-view">
         <div className="toolbar">
           <button onClick={::this.deleteSelf}>Delete</button>
         </div>
-        <Editor value={this.state.content} onChange={debounce(::this.updateContent, 500)} />
+        <Editor
+          value={this.state.content}
+          options={codemirrorOptions}
+          onChange={debounce(::this.updateContent, 500)} />
       </div>
     );
   }
