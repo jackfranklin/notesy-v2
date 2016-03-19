@@ -9,7 +9,8 @@ export default class SidebarDocument extends React.Component {
 
   render() {
     const { doc } = this.props;
-    const date = new Date(+doc._id);
+    const updatedAt = parseInt(doc.updatedAt || doc._id, 10);
+    const date = new Date(updatedAt);
     return (
       <Link className="sidebar-document-link" to={`/${doc._id}`}>
         <div>

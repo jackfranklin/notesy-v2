@@ -14,6 +14,11 @@ db.sync(remote, {
   retry: true
 });
 
+function idFromDate() {
+  const date = new Date();
+  return (+date).toString();
+}
+
 // TODO: turn on db.compact every 5 minutes or so
 
 db.createIndex({
@@ -35,8 +40,10 @@ function findNoteById(id) {
 }
 
 function createNote({ content, userId }) {
+  const createdAt = idFromDate();
   return db.put({
-    _id: (+(new Date())).toString(),
+    _id: createdAt,
+    updatedAt: createdAt,
     content,
     userId
   });
@@ -56,7 +63,8 @@ export {
   createNote,
   findNoteById,
   updateNote,
-  deleteNote
+  deleteNote,
+  idFromDate
 };
 
 // db.changes({

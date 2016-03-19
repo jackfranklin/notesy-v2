@@ -2,7 +2,7 @@ import React from 'react';
 import NoDocumentView from './no-document-view';
 import Editor from 'react-md-editor';
 import debounce from 'lodash/debounce';
-import { updateNote, deleteNote } from '../db';
+import { updateNote, deleteNote, idFromDate } from '../db';
 
 export default class DocumentView extends React.Component {
   static contextTypes = {
@@ -30,7 +30,8 @@ export default class DocumentView extends React.Component {
       _id: doc._id,
       _rev: doc._rev,
       userId: doc.userId,
-      content: newContent
+      content: newContent,
+      updatedAt: idFromDate()
     }
     updateNote(newDoc).then((updatedDoc) => {
       newDoc._rev = updatedDoc.rev;
