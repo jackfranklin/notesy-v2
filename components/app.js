@@ -120,7 +120,7 @@ export default class App extends React.Component {
     return (
       <div>
         <div className="header">
-          <Header userId={this.state.user} />
+          <Header userId={this.state.user} activeDocument={this.state.activeDocument} />
         </div>
         <div className="sidebar">
           <Sidebar documents={this.state.documents} />

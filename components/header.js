@@ -1,9 +1,10 @@
 import React from 'react';
-import { createNote } from '../db';
+import { createNote, deleteNote } from '../db';
 
 export default class Header extends React.Component {
   static propTypes = {
-    userId: React.PropTypes.string.isRequired
+    userId: React.PropTypes.string.isRequired,
+    activeDocument: React.PropTypes.object
   };
 
   static contextTypes = {
@@ -22,10 +23,24 @@ export default class Header extends React.Component {
     });
   }
 
+  deleteNote() {
+    deleteNote(this.props.activeDocument).then(() => {
+      this.context.updateDocumentList();
+      this.context.router.push('/');
+    });
+  }
+
+  renderDeleteButton() {
+    return (
+      <button onClick={::this.deleteNote}>Delete Note</button>
+    )
+  }
+
   render() {
     return (
       <div>
         <button onClick={::this.newNote}>New Note</button>
+        { this.props.activeDocument && this.renderDeleteButton() }
       </div>
     );
   }

@@ -2,7 +2,7 @@ import React from 'react';
 import NoDocumentView from './no-document-view';
 import Editor from 'react-md-editor';
 import debounce from 'lodash/debounce';
-import { updateNote, deleteNote, idFromDate } from '../db';
+import { updateNote, idFromDate } from '../db';
 
 export default class DocumentView extends React.Component {
   static contextTypes = {
@@ -39,13 +39,6 @@ export default class DocumentView extends React.Component {
     });
   }
 
-  deleteSelf() {
-    deleteNote(this.props.document).then(() => {
-      this.context.updateDocumentList();
-      this.context.router.push('/');
-    });
-  }
-
   renderDocument() {
     const codemirrorOptions = {
       lineWrapping: true
@@ -53,9 +46,6 @@ export default class DocumentView extends React.Component {
 
     return (
       <div className="document-view">
-        <div className="toolbar">
-          <button onClick={::this.deleteSelf}>Delete</button>
-        </div>
         <Editor
           value={this.state.content}
           options={codemirrorOptions}
