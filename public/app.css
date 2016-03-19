@@ -26,6 +26,7 @@ body {
   width: 25%;
   float: left;
   border-right: 1px solid #ccc;
+  overflow: scroll;
 }
 
 .main {
@@ -61,6 +62,16 @@ body {
 
 .sidebar li:hover {
   cursor: pointer;
+}
+
+.sidebar a:link,
+.sidebar a:visited,
+.sidebar a:hover {
+  color: blue;
+  text-decoration: none;
+}
+
+.sidebar a:hover {
   background: #eee;
 }
 

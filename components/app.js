@@ -7,6 +7,10 @@ import {
   createNote,
   findNoteById
 } from '../db';
+import {
+  didMount,
+  didUnmount
+} from '../set-height-to-window';
 
 export default class App extends React.Component {
   static childContextTypes = {
@@ -87,6 +91,23 @@ export default class App extends React.Component {
 
   componentWillMount() {
     this.updateDocumentList();
+  }
+
+  setMainHeight() {
+    const renderedDiv = document.querySelector('#app .main');
+    const header = document.querySelector('#app .header');
+    const heightVal = window.innerHeight - header.offsetHeight;
+    renderedDiv.style.height = heightVal + 'px';
+  }
+
+  componentDidMount() {
+    didMount('.main');
+    didMount('.sidebar');
+  }
+
+  componentWillUnmount() {
+    didUnmount('.main');
+    didUnmount('.sidebar');
   }
 
   render() {
