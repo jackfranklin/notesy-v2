@@ -41,7 +41,8 @@ export default class DocumentView extends React.Component {
 
   renderDocument() {
     const codemirrorOptions = {
-      lineWrapping: true
+      lineWrapping: true,
+      autofocus: true
     };
 
     return (

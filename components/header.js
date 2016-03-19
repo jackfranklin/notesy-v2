@@ -1,4 +1,6 @@
 import React from 'react';
+import AddIcon from 'react-icons/lib/ti/document-add';
+import DeleteIcon from 'react-icons/lib/ti/delete-outline';
 import { createNote, deleteNote } from '../db';
 
 export default class Header extends React.Component {
@@ -14,7 +16,7 @@ export default class Header extends React.Component {
 
   newNote() {
     createNote({
-      content: '',
+      content: 'Make Shakespeare jelly.',
       userId: this.props.userId
     }).then((newNote) => {
       const { id } = newNote;
@@ -32,14 +34,14 @@ export default class Header extends React.Component {
 
   renderDeleteButton() {
     return (
-      <button onClick={::this.deleteNote}>Delete Note</button>
+      <a href='#' onClick={::this.deleteNote} className='svg-icon'><DeleteIcon /></a>
     )
   }
 
   render() {
     return (
       <div>
-        <button onClick={::this.newNote}>New Note</button>
+        <a href='#' onClick={::this.newNote} className='svg-icon'><AddIcon /></a>
         { this.props.activeDocument && this.renderDeleteButton() }
       </div>
     );
