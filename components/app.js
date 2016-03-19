@@ -26,7 +26,7 @@ export default class App extends React.Component {
   }
 
   updateDocumentList() {
-    getAll(this.state.user).then((data) => {
+    return getAll(this.state.user).then((data) => {
       console.log('Got data for user', data);
       // TODO: can I do the reverse query as a Pouch _id sort?
       this.setState({ documents: data.docs.reverse() });
@@ -90,7 +90,11 @@ export default class App extends React.Component {
   }
 
   componentWillMount() {
-    this.updateDocumentList();
+    this.updateDocumentList().then(() => {
+      if (this.props.params.documentId) {
+        this.updateActiveDocumentById(this.props.params.documentId);
+      }
+    });
   }
 
   setMainHeight() {
@@ -103,6 +107,7 @@ export default class App extends React.Component {
   componentDidMount() {
     didMount('.main');
     didMount('.sidebar');
+
   }
 
   componentWillUnmount() {
