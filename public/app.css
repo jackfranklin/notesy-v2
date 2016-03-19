@@ -54,6 +54,11 @@ body {
   border-bottom: 1px solid #EEE;
 }
 
+.sidebar-document-link .content {
+  width: 70%;
+  display: block;
+}
+
 .sidebar li:hover {
   cursor: pointer;
   background: #eee;
