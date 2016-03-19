@@ -33,6 +33,8 @@ export default class App extends React.Component {
     });
   }
 
+  // TODO: I think this could go away and instead everything
+  // should instead just call updateActiveDocumentById
   newActiveDocument(newDocument) {
     if (!newDocument) {
       this.setState({ activeDocument: undefined });
