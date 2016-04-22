@@ -36,7 +36,7 @@ app.get('*', ensureAuthenticated, (req, res) => {
   }
   res.render('index', {
     githubId: req.user.id,
-    scriptSrc: process.env.NODE_ENV === 'production' ? 'http://notesy2.surge.sh/production-build.js' : 'webpack-build.js'
+    scriptSrc: process.env.NODE_ENV === 'production' ? 'http://jackfranklin.co.uk/notesy-v2/public/production-build.js' : 'webpack-build.js'
   });
 });
 
