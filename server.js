@@ -30,6 +30,10 @@ app.set('view engine', 'ejs');
 passportRoutes(app);
 
 app.get('*', ensureAuthenticated, (req, res) => {
+  if (req.user.username !== 'jackfranklin') {
+    res.send('Sorry, this isn\'t public yet!');
+    return;
+  }
   res.render('index', {
     githubId: req.user.id,
     scriptSrc: process.env.NODE_ENV === 'production' ? 'http://notesy2.surge.sh/production-build.js' : 'webpack-build.js'
